@@ -62,31 +62,53 @@ mercenaryBase1Items = [knife, arrows, arrows, cloth, goldCoins, skillPoint]
 # inventory mechanics
 
 def takeItem(item, locList):
+    # function for taking an item from an environment
+    # item == the item the player is taking
+    # locList == the list relative to the current location that the item is taken from
     global playerInventory
+    # delcares playerInventory as global so it can be accessed
+
     i = 0
+    # the count of said item that is in the location
 
     for value in locList:
+        # for every item in the local location list...
         if value == item:
+            # if the item is the item to be taken, then...
             i += 1
+            # count incremented
     if i > 1:
+        # if there is more than one of the item in the environment, then...
         print("Enter the amount you'd like to take")
         i = int(input("→ "))
-    elif i < 0:
+        # defines an amount to take
+    elif i == 0:
+        # if the item is not in the environment, then...
         print("Item not found")
         pass
-    for value in range(0, i):
+    for _ in range(0, i):
+        # for <count> times...
         try:
+            # if possible...
             locList.remove(item)
+            # remove the item from the local location list
             playerInventory.append(item)
+            # add the item to the player's inventory
         except ValueError:
+            # if the item is not in the location list [amount selected > count] then...
             print("Amount exceeds amount of items in the area - max amount of", item, "taken.")
             return
+            # exit function
 
     print("You have taken", item + ".")
     return playerInventory
+    # update the player inventory
 
 def dropItem(item, locList):
+    # function for dropping items
+    # parameters == `takeItem()` parameters
     global playerInventory
+
     i = 0
     for value in playerInventory:
         if value == item:
@@ -98,6 +120,7 @@ def dropItem(item, locList):
         try:
             playerInventory.remove(item)
             locList.append(item)
+            # inverse of taking an item
         except ValueError:
             print("Amount exceeds amount of items in the area - max amount of", item, "dropped.")
             return
@@ -110,71 +133,91 @@ def dropItem(item, locList):
 
 def printInv():
     global playerInventory
-    excludeList = [climbingAxe, bow, grapplingHook, artifact, goldCoins, skillPoint]
+
+    excludeList = [climbingAxe, knife, bow, grapplingHook, artifact, goldCoins, skillPoint]
+    # items to be printed later
     (playerInv := list(set(playerInventory)))
+    # walrus operator used for temporary variable assignment
+    # declares a list of unique items in the player inventory
     for item in excludeList:
+        # for each item in the exclude list...
         if item in playerInv:
+            # if the item is in the player's inventory, then...
             playerInv.remove(item)
+            # remove the item from the declared instance of the inventory
     for item in playerInv:
+        # for each item in the player's inventory that is unique and not in the exclude list, then...
         if item is not playerInv[-1]:
+            # if the item isn't the last to be printed, then...
             print(item + ":", playerInventory.count(item), end=", ")
+            # print the item and its count, alongside a comma
         else:
+            # if the item is the last to be printed, then...
             print(item + ":", playerInventory.count(item))
+            # print the item and its count
 
     tools = []
+    # list of tools to be printed
     for item in playerInventory:
-        if any(value in item for value in [climbingAxe, bow, grapplingHook]) == True:
+        # for every item in the player's inventory...
+        if any(value in item for value in [climbingAxe, bow, grapplingHook, knife]) == True:
+            # any function used to check if any elements in a list of values are in a string
+            # if the item is either a climbing axe, bow, grappling hook or knife, then...
             tools.append(item)
+            # add the item to the tools list
             continue
+            # continue to the next item in the list
     print("Tools", end=": ")
+    # `end=": "` makes the print statements of the following for loop appear on the same line
     for item in tools:
-        if item != tools[-1]:
+        # for each item in the tools list...
+        if item is not tools[-1]:
             print(item, end=", ")
         else:
             print(item)
 
-    i = 0
-    for item in playerInventory:
-        if item == goldCoins:
-            i += 1
-            continue
-    print("Gold coins:", i)
-
-    i = 0
-    for item in playerInventory:
-        if item == skillPoint:
-            i += 1
-            continue
-    print("Skill points:", i, "/ 5")
-
-    i = 0
-    for item in playerInventory:
-        if item == artifact:
-            i += 1
-            continue
-    print("Artifacts:", i, "/ 4")
+    print("Gold coins:", playerInventory.count(goldCoins))
+    print("Skill points:", playerInventory.count(skillPoint), "/ 5")
+    print("Artifacts:", playerInventory.count(artifact), "/ 4")
+    # prints the item and then the count of each item, respectively
+    # done separately from the rest of the items to make them stand out more, improving accessibility
 
 
 def printItems(exception = None):
+    # function for printing the items currently in the environment
     (locationItemsList := locations.playerLocation["location"]["items"])
-    disallowList = ["Crypt", "Tomb", "Supply Shack", "Mercenary Base"]
+    # declares the `items` values of the current location as a variable for easier access throughout the function
+    excludeList = ["Crypt", "Tomb", "Supply Shack", "Mercenary Base"]
+    # list of locations to not automatically print the items of
     if exception != None:
-        disallowList.remove(exception)
-    if locations.playerLocation["location"]["items"] == []:
+        # if an exception is given, then...
+        excludeList.remove(exception)
+        # remove the exception from the exclude list
+    if locationItemsList == []:
+        # if there aren't any items in the area, then...
         print("You don't seem to see any items in the area.")
         return
-    if any(item in locations.playerLocation["location"]["title"] for item in disallowList) == False:
+    if any(item in locations.playerLocation["location"]["title"] for item in excludeList) == False:
+        # if the title matches any value in the exclude list, then...
         for item in locationItemsList:
+            # for every item in the location...
             if item not in allItems:
+                # if the item is a skill point, then...
                 locationItemsList.remove(item)
+                # remove the item from the printing list
         print("You can see", end=" ")
         if len(set(locationItemsList)) > 1:
+            # if there are more than 1 items in the area, then...
             for item in set(locationItemsList):
+                # list cast as a set to make the for loop iterate across unique values
+                # for every item in the area's items...
                 if item is not list(set(locationItemsList))[-1]:
+                    # cast back to a list so it can be indexed
                     print(locationItemsList.count(item), item, end=", ")
                 else:
                     print("and", locationItemsList.count(item), item)
         else:
+            # if there's only 1 item in the area, then...
             print(locationItemsList.count(item), item + ".")
 
 
