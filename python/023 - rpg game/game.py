@@ -7,5 +7,3 @@ while True:
     userInput = input("→ ")
 
     misc.commandFilter(userInput)
-
-# git commit testing
