@@ -30,18 +30,18 @@ _______________________________________________________________________
 
 def help():
     print("                 ------ GENERAL COMMANDS ------")
-    print("""\033[1mgo <direction>\033[0m: go in the specified direction [i.e. go n: go north]
-\033[1mtake <item>\033[0m: take a specified item from the location [i.e. take wood]
-\033[1mdrop <item>\033[0m: drop a specified item from inventory [i.e. drop wood]
-\033[1minv\033[0m: view current inventory""")
+    print("""• \033[1mgo <direction>\033[0m: go in the specified direction [i.e. go n: go north]
+• \033[1mtake <item>\033[0m: take a specified item from the location [i.e. take wood]
+• \033[1mdrop <item>\033[0m: drop a specified item from inventory [i.e. drop wood]
+• \033[1minv\033[0m: view current inventory""")
     if "Base Camp" in locations.playerLocation["location"]["title"]:
         # if the player is in a base camp, then...
         print("                 ----- BASE CAMP COMMANDS -----")
         if locations.ftUnlock == True:
             # if the player has unlocked fast travel, then...
-            print("\033[1mfast travel <base camp>\033[0m: travel to another base camp [i.e. fast travel 1]")
-        print("""\033[1mcraft menu\033[0m: select item to craft from a menu; dependent on materials
-\033[1mcraft <item>\033[0m: craft desired item [i.e. craft bandages]""")
+            print("• \033[1mfast travel <base camp>\033[0m: travel to another base camp [i.e. fast travel 1]")
+        print("""• \033[1mcraft menu\033[0m: select item to craft from a menu; dependent on materials
+• \033[1mcraft <item>\033[0m: craft desired item [i.e. craft bandages]""")
         # will put skill unlock command once made
     elif any(item in locations.playerLocation["location"]["title"] for item in ["Crypt", "Tomb"]) == True:
         # checks whether any of the items of the list - ["Crypt", "Tomb"] - are in the location title
@@ -51,8 +51,8 @@ def help():
     elif "Supply Shack" in locations.playerLocation["location"]["title"]:
         # if the player is in a supply shack, then...
         print("                 --- SUPPLY SHACK COMMANDS ---")
-        print("""\033[1mview stock\033[0m: display the items for sale in the supply shack
-\033[1mbuy <item>\033[0m: purchase the desired item""")
+        print("""• \033[1mview stock\033[0m: display the items for sale in the supply shack
+• \033[1mbuy <item>\033[0m: purchase the desired item""")
     print()
     # prints a new line for the main game action input
 
