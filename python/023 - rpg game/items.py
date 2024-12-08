@@ -68,15 +68,9 @@ def takeItem(item, locList):
     global playerInventory
     # delcares playerInventory as global so it can be accessed
 
-    i = 0
-    # the count of said item that is in the location
+    i = locList.count(item)
+    # declares the count of the item in the environment as a variable
 
-    for value in locList:
-        # for every item in the local location list...
-        if value == item:
-            # if the item is the item to be taken, then...
-            i += 1
-            # count incremented
     if i > 1:
         # if there is more than one of the item in the environment, then...
         print("Enter the amount you'd like to take")
@@ -109,14 +103,12 @@ def dropItem(item, locList):
     # parameters == `takeItem()` parameters
     global playerInventory
 
-    i = 0
-    for value in playerInventory:
-        if value == item:
-            i += 1
+    i = locList.count(item)
+
     if i > 1:
         print("Enter the amount you'd like to drop")
         i = int(input("→ "))
-    for value in range(0, i):
+    for _ in range(0, i):
         try:
             playerInventory.remove(item)
             locList.append(item)
