@@ -172,7 +172,7 @@ def printInv():
     print("Skill points:", playerInventory.count(skillPoint), "/ 5")
     print("Artifacts:", playerInventory.count(artifact), "/ 4")
     # prints the item and then the count of each item, respectively
-    # done separately from the rest of the items to make them stand out more, improving accessibility
+    # done separately from the rest of the items to make them stand out more
 
 
 def printItems(exception = None):
@@ -190,7 +190,7 @@ def printItems(exception = None):
         print("You don't seem to see any items in the area.")
         return
     if any(item in locations.playerLocation["location"]["title"] for item in excludeList) == False:
-        # if the title matches any value in the exclude list, then...
+        # if the title doesn't match any value in the exclude list, then...
         for item in locationItemsList:
             # for every item in the location...
             if item not in allItems:
