@@ -224,6 +224,7 @@ def printItems(exception = None):
 # crafting functions
 
 craftableItems = {
+    # dictionary containing the items a player can craft
     grapplingHook : {
         "materials" : [climbingAxe, rope],
         "quantity" : 1
@@ -238,46 +239,56 @@ craftableItems = {
         "materials" : [wood, feathers, feathers],
         "quantity" : 2
     }
+    # materials == the items the player needs to craft an item
+    # quantity == how many of the item are crafted
 }
 
 def craftItemMenu():
+    # function for bringing up a menu displaying the craftable items and their properties
     for item in craftableItems:
+        # for every craftable item...
         print("---", item, "---")
         for mat in set(craftableItems[item]["materials"]):
+            # for each unique material needed to create the item...
             print(mat + ":", playerInventory.count(mat), "/", craftableItems[item]["materials"].count(mat))
+            # print how much of the material the player has and how much is needed to craft the item
 
-    print("Input action")
-    userInput = input("→ ")
-
-
-
-    misc.commandFilter(userInput)
 
 def craftItem(item):
+    # function for crafting an item using relative materials
     if all(item in playerInventory for item in craftableItems[item]["materials"]) == True:
+        # all function used to check if all values in a list are in another [list 2 in list 1]
+        # if the player has all the required materials, then...
         for mat in craftableItems[item]["materials"]:
+            # for each required material...
             if mat != climbingAxe:
+                # if the material is not the climbing axe [there are 2], then...
                 playerInventory.remove(mat)
+                # remove the material
             else:
                 continue
+                # move on to the next item
     quantity = craftableItems[item]["quantity"]
+    # assigns a variable to the quantity of the crafted item for more readable loc
     for _ in range(0, quantity):
+        # _ used so that the indexing variable doesn't need to be accessed
         playerInventory.append(item)
+        # add the item to the player's inventory
     print(item.title(), "successfully crafted.")
+    # `.title()` prints the item in title case
 
 def checkArtifactAmount():
-    i = 0
-    for item in playerInventory:
-        if item == artifact:
-            i += 1
-    if i == 4:
+    if playerInventory.count(artifact) == 4:
+        # if the player has attained 4 artifacts, then...
         messages.completeGame()
+        # runs function for game completion message
     else:
         pass
 
 # supply shack functions
 
 supplyShackItems = {
+    # dictionary for identifying the items sold at the supply shack
     rope : {
         "stock" : 1,
         "quantity" : 1,
@@ -293,35 +304,38 @@ supplyShackItems = {
         "quantity" : 1,
         "price" : 3
     }
+    # stock == how many of the quantities of items you can buy
+    # quantity == how much of the item the player recieves per purchase
+    # price == the cost for the quantity of items
 }
 
 def supplyShackMenu():
+    # function for displaying the items available in the supply shack
     for item in supplyShackItems:
+        # for each item in the supply shack...
         print("---", item, "---")
         print("Stock:", supplyShackItems[item]["stock"])
         print("Price for", str(supplyShackItems[item]["quantity"]) + ":", supplyShackItems[item]["price"])
+        # quantity cast as string to avoid concatenation errors
 
-    i = 0
-    for item in playerInventory:
-        if item == goldCoins:
-            i += 1
-            continue
-    print("Gold coins:", i)
+    print("Gold coins:", playerInventory.count(goldCoins))
 
-    print("Input action")
-    userInput = input("→ ")
-
-
-
-    misc.commandFilter(userInput)
 
 def buyItem(item, quantity):
+    # function for purchasing an item in the supply shack
+    # item == the desired item for purchase
+    # quantity == how much of the stock is being purchased
     for _ in range(0, (supplyShackItems[item]["quantity"] * quantity)):
+        # for the amount of items the player has purchased...
         playerInventory.append(item)
+        # add the item to the player's inventory
     for _ in range(0, (supplyShackItems[item]["price"] * quantity)):
+        # for the total price of the items purchased...
         playerInventory.remove(goldCoins)
+        # remove gold coins from the player's inventory
 
     supplyShackItems[item]["stock"] -= quantity
+    # takes away the purchased items from the stock
 
     print(item.title(), "purchased successfully.")
 
