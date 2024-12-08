@@ -98,6 +98,7 @@ def commandFilter(userInput):
             # if the input is 'craft menu', then...
             items.craftItemMenu()
             # run the function for bringing up the craftable items
+            command = None
 
         if command == "craft":
             # if the command is 'craft', then...
@@ -139,17 +140,6 @@ def commandFilter(userInput):
                 return
                 # exits to main input
 
-            i = 0
-            # count of coins
-            for item in items.playerInventory:
-                # for every item in the players inventory...
-                if item == items.goldCoins:
-                    # if the item is a gold coin, then...
-                    i += 1
-                    # count of coins goes up by 1
-                    continue
-                    # move on to the next item
-
             if len(userInput.split()[1:]) > 1:
                 item = " ".join(userInput.split()[0:])
             elif len(userInput.split()[1:]) == 1:
@@ -169,7 +159,8 @@ def commandFilter(userInput):
                 command = None
                 return
 
-            if i >= (items.supplyShackItems[item]["price"] * amount):
+            coinCount = items.playerInventory.count(items.goldCoins)
+            if coinCount >= (items.supplyShackItems[item]["price"] * amount):
                 # if the amount of coins the player has is more than or equal to the total price, then...
                 items.buyItem(item, amount)
                 # runs the function for buying the item, taking the item and amount as parameters
