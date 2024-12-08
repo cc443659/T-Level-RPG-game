@@ -3,7 +3,7 @@
 File that contains all of the item-related mechanics of the game.
 """
 
-import locations, misc, messages
+import locations, messages
 
 climbingAxe = "climbing axe"
 bow = "bow"
