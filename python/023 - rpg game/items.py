@@ -78,7 +78,7 @@ def takeItem(item, locList):
     # item == the item the player is taking
     # locList == the list relative to the current location that the item is taken from
     global playerInventory
-    # delcares playerInventory as global so it can be accessed
+    # declares playerInventory as global so it can be accessed
 
     i = locList.count(item)
     # declares the count of the item in the environment as a variable
