@@ -35,6 +35,8 @@ skillPoint = "skill point"
 allItems = [wood, leaves, feathers, berries, rope, cloth, artifact, grapplingHook, knife, antiseptic, bandages, arrows, goldCoins]
 # skillPoint is separate from this list so that skill points can't be 'taken' or 'dropped'
 
+# cheat code
+
 def coinCheat():
     # function for a coin giving cheat code made for testing purposes
     for _ in range(0, 10):
@@ -58,6 +60,16 @@ tomb2Items = [goldCoins, artifact, skillPoint]
 
 # items found in mercenary base
 mercenaryBase1Items = [knife, arrows, arrows, cloth, goldCoins, skillPoint]
+
+# game completion condition checking
+
+def checkArtifactAmount():
+    if playerInventory.count(artifact) == 4:
+        # if the player has attained 4 artifacts, then...
+        messages.completeGame()
+        # runs function for game completion message
+    else:
+        pass
 
 # inventory mechanics
 
@@ -268,14 +280,6 @@ def craftItem(item):
         # add the item to the player's inventory
     print(item.title(), "successfully crafted.")
     # `.title()` prints the item in title case
-
-def checkArtifactAmount():
-    if playerInventory.count(artifact) == 4:
-        # if the player has attained 4 artifacts, then...
-        messages.completeGame()
-        # runs function for game completion message
-    else:
-        pass
 
 # supply shack functions
 
