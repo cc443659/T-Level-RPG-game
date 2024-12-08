@@ -90,10 +90,13 @@ def commandFilter(userInput):
         # if the user is at a base camp, then...
         if "fast" and "travel" in userInput.split()[:2]:
             # if the first two words in the user's input are 'fast travel', then...
-            userInput = userInput.split()[2]
-            # the target of the fast travel is the last word of the input
-            locations.fastTravel(userInput)
-            # runs the function for fast travelling
+            try:
+                userInput = userInput.split()[2]
+                # the target of the fast travel is the last word of the input
+                locations.fastTravel(userInput)
+                # runs the function for fast travelling
+            except IndexError:
+                print("Invalid command")
         if userInput == "craft menu":
             # if the input is 'craft menu', then...
             items.craftItemMenu()
@@ -128,6 +131,9 @@ def commandFilter(userInput):
 
         if command == "buy":
             # if the command is 'buy', then...
+            if len(userInput.split()) == 1:
+                print("Invalid command")
+                return
             amount = 1
             # default amount to buy is 1
             print("Input the amount you'd like to buy [enter 0 to cancel]")
