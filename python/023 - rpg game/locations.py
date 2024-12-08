@@ -281,7 +281,7 @@ def goTo(userInput):
     global ftUnlock
     # fast travel unlock declared as global
 
-    if userInput.upper() == "N":
+    if userInput.upper() == "N" or userInput.upper() == "NORTH":
         # if the direction is north, then...
         if checkRequirements("N") == True:
             # if the user meets the location's requirements, then...
@@ -291,19 +291,19 @@ def goTo(userInput):
             return
             # stops the function so it doesn't loop over
 
-    if userInput.upper() == "E":
+    if userInput.upper() == "E" or userInput.upper() == "EAST":
         if checkRequirements("E") == True:
             goEast()
         else:
             return
 
-    if userInput.upper() == "W":
+    if userInput.upper() == "W" or userInput.upper() == "WEST":
         if checkRequirements("W") == True:
             goWest()
         else:
             return
 
-    if userInput.upper() == "S":
+    if userInput.upper() == "S" or userInput.upper() == "SOUTH":
         if checkRequirements("S") == True:
             goSouth()
         else:
